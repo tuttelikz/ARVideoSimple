@@ -23,16 +23,15 @@ import com.google.ar.sceneform.ux.ArFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Elements
     private ArFragment arFragment;
-
-    @Nullable
     private ModelRenderable videoRenderable;
     private MediaPlayer mediaPlayer;
 
-    // The color to filter out of the video.
+    // The color to filter out of the video : working combination
     private static final Color CHROMA_KEY_COLOR = new Color(0.1843f, 1.0f, 0.098f);
 
-    // Controls the height of the video in world space.
+    // Controls the height of the video in world space: adjustable
     private static final float VIDEO_HEIGHT_METERS = 0.85f;
 
     @Override
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        // bind fragment
         arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
         // Create an ExternalTexture for displaying the contents of the video.
@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.setSurface(texture.getSurface());
         mediaPlayer.setLooping(true);
 
+
+        // Create a renderable with a material that has a parameter of type 'samplerExternal' so that
+        // it can display an ExternalTexture. The material also has an implementation of a chroma key
+        // filter.
         ModelRenderable.builder()
                 .setSource(this, R.raw.video_screen)
                 .build()
